@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "Save Page and Send Email",
+    "version": "1.0",
+    "permissions": [
+      "activeTab",
+      "scripting",
+      "tabs",
+      "storage",
+      "downloads",
+      "downloads.shelf"
+    ],
+    "host_permissions": [
+      "https://mail.google.com/*"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icon16.png"
+      }
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "icons": {
+      "16": "icon16.png"
+    }
+  }
