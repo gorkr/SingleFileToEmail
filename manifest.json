@@ -8,7 +8,8 @@
       "tabs",
       "storage",
       "downloads",
-      "downloads.shelf"
+      "downloads.shelf",
+      "clipboardWrite"
     ],
     "host_permissions": [
       "https://mail.google.com/*"

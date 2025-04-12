@@ -1,3 +1,12 @@
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText("要复制的内容")
+  .then(() => console.log("内容已复制到剪贴板"))
+  .catch(err => console.error("复制失败:", err));
+
+  }
+  
+
 chrome.downloads.onCreated.addListener((downloadItem) => {
 
     console.log('Download started:', downloadItem);
@@ -24,24 +33,29 @@ chrome.downloads.onChanged.addListener(function (downloadDelta) {
         });
 
         // todo 获取文件路径
+        let filePath = null;
+        let fileName = null;
         chrome.downloads.search({ id: downloadDelta.id }, function (downloads) {
             if (downloads && downloads[0]) {
-                const filePath = downloads[0].filename;
+                filePath = downloads[0].filename;
+                fileName = filePath.split('\\').pop();
+                copyToClipboard(filePath)
+                console.log(filePath)
             }
-        });
+        });        
 
         // 获取存储的 email
         chrome.storage.local.get(['userEmail'], function (result) {
             const email = result.userEmail;
-            const mailtoUrl = `mailto:${email}?subject=文件分享&body=这是您要的文件`;
+            console.log("email"+email)
+            const mailtoUrl = `mailto:${email}?subject=互联网本分享内容:${fileName}&body=本地地址${filePath}`;
             chrome.tabs.create({
                 url: encodeURI(mailtoUrl)
             });
-            // todo email js
-
-
-            //
+            // todo email j
         });
+
+
 
         // 向 popup 发送消息
         chrome.runtime.sendMessage({

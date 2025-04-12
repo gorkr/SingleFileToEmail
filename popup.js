@@ -6,6 +6,14 @@ document.getElementById('saveAndSend').addEventListener('click', async () => {
       statusElement.textContent = '请填写所有字段！';
       return;
     }
+    chrome.storage.local.set({ 'userEmail': email }, function() {
+      // 存储完成后的回调函数
+      if (chrome.runtime.lastError) {
+        console.error("存储失败:", chrome.runtime.lastError);
+      } else {
+        console.log("userEmail 已成功存储:", email);
+      }
+    });
   
     try {
       statusElement.textContent = '正在保存页面...';
@@ -36,6 +44,7 @@ document.getElementById('saveAndSend').addEventListener('click', async () => {
       // 发送消息给SingleFile扩展
       chrome.runtime.sendMessage('mpiodijhokgodhhofbcjdecpffjipkle', "save-page");
       statusElement.textContent = '已发送保存命令，SingleFile 正在处理...';
+
       
     } catch (error) {
       statusElement.textContent = '发生错误：' + error.message;
@@ -50,3 +59,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     statusElement.textContent = message.message;
   }
 });
+
+
